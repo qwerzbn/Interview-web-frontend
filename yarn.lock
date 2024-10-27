@@ -123,7 +123,7 @@
     rc-util "^5.4.0"
     swr "^2.0.0"
 
-"@ant-design/pro-form@2.31.1":
+"@ant-design/pro-form@^2.31.1", "@ant-design/pro-form@2.31.1":
   version "2.31.1"
   resolved "https://registry.npmmirror.com/@ant-design/pro-form/-/pro-form-2.31.1.tgz"
   integrity sha512-k5L48GsS773UJUrUYdLWeVM1Iw21SpXklpxeHa2i9GJUVoLyVglrlZkke0xdJieozqGWpfn4bbpxXmvIZIu5lQ==

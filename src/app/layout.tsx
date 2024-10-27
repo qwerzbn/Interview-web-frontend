@@ -4,10 +4,12 @@ import "./globals.css";
 import BasicLayout from "@/layouts/BasicLayout";
 import React, { useCallback, useEffect } from "react";
 import "./globals.css";
-import {Provider, useDispatch} from "react-redux";
-import store, {AppDispatch} from "@/stores";
+import { Provider, useDispatch } from "react-redux";
+import store, { AppDispatch } from "@/stores";
 import AccessLayout from "@/access/accessLayout";
-import {getLoginUserUsingGet} from "@/api/userController";
+import { getLoginUserUsingGet } from "@/api/userController";
+import { setLoginUser } from "@/stores/loginUser";
+import { usePathname } from "next/navigation";
 
 /**
  * 执行初始化逻辑的布局（多封装一层）
@@ -23,10 +25,11 @@ const InitLayout: React.FC<
   const doInitLoginUser = useCallback(async () => {
     console.log("hello 欢迎来到我的项目");
     const res = await getLoginUserUsingGet();
-    if (res.data.code === 0) {
-
-    }else {
-
+    console.log("初始化用户信息", res);
+    if (res.data) {
+      // @ts-ignore
+      dispatch(setLoginUser(res.data));
+    } else {
     }
   }, []);
 
@@ -43,15 +46,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isLogin = pathname.startsWith("/user");
   return (
     <html lang="zh">
       <body>
         <AntdRegistry>
           <Provider store={store}>
             <InitLayout>
-              <BasicLayout>
-                <AccessLayout>{children}</AccessLayout>
-              </BasicLayout>
+              {isLogin && <AccessLayout>{children}</AccessLayout>}
+              {!isLogin && (
+                <BasicLayout>
+                  <AccessLayout>{children}</AccessLayout>
+                </BasicLayout>
+              )}
             </InitLayout>
           </Provider>
         </AntdRegistry>

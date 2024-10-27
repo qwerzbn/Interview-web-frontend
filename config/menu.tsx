@@ -9,12 +9,30 @@ export const menus = [
     name: "首页",
   },
   {
+    path: "/user",
+    name: "用户",
+    hideInMenu: true,
+    children: [
+      {
+        path: "/user/login",
+        name: "用户登录",
+        hideInMenu: true,
+      },
+      {
+        path: "/user/register",
+        name: "用户注册",
+        hideInMenu: true,
+      },
+    ],
+  },
+  {
     path: "/questions",
     name: "题目",
   },
   {
     path: "/banks",
     name: "题库",
+    access: AccessEnum.USER,
   },
   {
     path: "/admin",

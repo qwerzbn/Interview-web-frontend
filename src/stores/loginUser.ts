@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/stores/index";
 import ACCESS_ENUM from "@/access/accessEnum";
+import {DEFAULT_USER} from "@/constants/userConstants";
 
-// 默认用户
-const DEFAULT_USER: API.LoginUserVO = {
-  userName: "未登录",
-  userProfile: "暂无简介",
-  userAvatar: "/notLoginUser.png",
-  userRole: ACCESS_ENUM.NOT_LOGIN,
-};
+
 
 /**
  * 登录用户全局状态
