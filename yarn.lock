@@ -201,7 +201,7 @@
   dependencies:
     "@babel/runtime" "^7.18.0"
 
-"@ant-design/pro-table@3.18.1":
+"@ant-design/pro-table@^3.18.1", "@ant-design/pro-table@3.18.1":
   version "3.18.1"
   resolved "https://registry.npmmirror.com/@ant-design/pro-table/-/pro-table-3.18.1.tgz"
   integrity sha512-w7xRBdXl3PFAQ5WiWIebFAxSjAnw/dwwu3gHzu956zl9dLAC3XysBbUgyS7pSrB0mSZJqv5YEZK8/t2xnOqfFg==
