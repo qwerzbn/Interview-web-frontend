@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
 import { menus } from "../../../config/menu";
+import { listQuestionVoByPageUsingPost } from "@/api/questionController";
 
 const SearchInput = () => {
   const { token } = theme.useToken();
@@ -56,6 +57,9 @@ interface Props {
 }
 
 export default function BasicLayout({ children }: Props) {
+  listQuestionVoByPageUsingPost({}).then((res) => {
+    console.log(res);
+  });
   const pathname = usePathname();
   return (
     <div
@@ -118,18 +122,12 @@ export default function BasicLayout({ children }: Props) {
           ];
         }}
         headerTitleRender={(logo, title, _) => {
-          const defaultDom = (
+          return (
             <a>
               {logo}
               {title}
             </a>
           );
-          if (typeof window === "undefined") return defaultDom;
-          if (document.body.clientWidth < 1400) {
-            return defaultDom;
-          }
-          if (_.isMobile) return defaultDom;
-          return <>{defaultDom}</>;
         }}
         footerRender={(props) => {
           return <GlobalFooter />;
