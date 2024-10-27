@@ -4,8 +4,10 @@ import "./globals.css";
 import BasicLayout from "@/layouts/BasicLayout";
 import React, { useCallback, useEffect } from "react";
 import "./globals.css";
-import { Provider } from "react-redux";
-import store from "@/stores";
+import {Provider, useDispatch} from "react-redux";
+import store, {AppDispatch} from "@/stores";
+import AccessLayout from "@/access/accessLayout";
+import {getLoginUserUsingGet} from "@/api/userController";
 
 /**
  * 执行初始化逻辑的布局（多封装一层）
@@ -17,16 +19,20 @@ const InitLayout: React.FC<
     children: React.ReactNode;
   }>
 > = ({ children }) => {
-  /**
-   * 全局初始化函数，有全局单次调用的代码，都可以写到这里
-   */
-  const doInit = useCallback(() => {
+  const dispatch = useDispatch<AppDispatch>();
+  const doInitLoginUser = useCallback(async () => {
     console.log("hello 欢迎来到我的项目");
+    const res = await getLoginUserUsingGet();
+    if (res.data.code === 0) {
+
+    }else {
+
+    }
   }, []);
 
   // 只执行一次
   useEffect(() => {
-    doInit();
+    doInitLoginUser();
   }, []);
 
   return <>{children}</>;
@@ -43,7 +49,9 @@ export default function RootLayout({
         <AntdRegistry>
           <Provider store={store}>
             <InitLayout>
-              <BasicLayout>{children} </BasicLayout>
+              <BasicLayout>
+                <AccessLayout>{children}</AccessLayout>
+              </BasicLayout>
             </InitLayout>
           </Provider>
         </AntdRegistry>

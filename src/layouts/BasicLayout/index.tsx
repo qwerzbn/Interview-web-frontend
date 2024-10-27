@@ -6,13 +6,18 @@ import {
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
 import { Dropdown, Input, theme } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
 import { menus } from "../../../config/menu";
 import { listQuestionVoByPageUsingPost } from "@/api/questionController";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores";
+import getMenuAccess from "@/access/menuAccess";
+import MdViewer from "@/components/MdViewer";
+import MdEditor from "@/components/MdEditor";
 
 const SearchInput = () => {
   const { token } = theme.useToken();
@@ -60,7 +65,10 @@ export default function BasicLayout({ children }: Props) {
   listQuestionVoByPageUsingPost({}).then((res) => {
     console.log(res);
   });
+  const loginUser = useSelector((state: RootState) => state.loginUser);
   const pathname = usePathname();
+  const [text, setText] = useState<string>("");
+
   return (
     <div
       id="BasicLayout"
@@ -87,9 +95,9 @@ export default function BasicLayout({ children }: Props) {
           collapsedShowGroupTitle: true,
         }}
         avatarProps={{
-          src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
+          src: loginUser.userAvatar,
           size: "small",
-          title: "朱贝宁",
+          title: loginUser.userName,
           render: (props, dom) => {
             return (
               <Dropdown
@@ -134,7 +142,7 @@ export default function BasicLayout({ children }: Props) {
         }}
         onMenuHeaderClick={(e) => console.log(e)}
         menuDataRender={() => {
-          return menus;
+          return getMenuAccess(loginUser, menus);
         }}
         menuItemRender={(item, dom) => (
           <Link href={item.path || "/"} target={item.target} key={item.path}>
@@ -142,6 +150,8 @@ export default function BasicLayout({ children }: Props) {
           </Link>
         )}
       >
+          <MdEditor value={text} onChange={setText} />
+          <MdViewer value={text} />
         {children}
       </ProLayout>
     </div>
