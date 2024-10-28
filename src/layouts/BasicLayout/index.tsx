@@ -21,6 +21,7 @@ import MdEditor from "@/components/MdEditor";
 import { userLoginUsingPost, userLogoutUsingPost } from "@/api/userController";
 import { setLoginUser } from "@/stores/loginUser";
 import { DEFAULT_USER } from "@/constants/userConstants";
+import "./index.css";
 
 const SearchInput = () => {
   const { token } = theme.useToken();
