@@ -2,19 +2,30 @@
 
 import { listQuestionVoByPageUsingPost } from "@/api/questionController";
 import { TablePaginationConfig } from "antd";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ProTable } from "@ant-design/pro-table";
 import TagList from "@/components/taglist";
 import Link from "next/link";
 import { ActionType, ProColumns } from "@ant-design/pro-components";
 
-interface Props {}
+interface Props {
+  defaultQuestionList?: API.QuestionVO[];
+  defaultTotal?: number;
+  defaultSearchParams?: API.QuestionQueryRequest;
+}
 
 /**
  * 题目表格组件
  * @constructor
  */
 export default function QuestionTable(props: Props) {
+  const { defaultQuestionList, defaultTotal, defaultSearchParams = {} } = props;
+  const [questionList, setQuestionList] = useState<API.QuestionVO[]>(
+    defaultQuestionList || [],
+  );
+  const [total, setTotal] = useState<number>(defaultTotal || 0);
+  const [init, setInit] = useState<boolean>(true);
+
   const actionRef = useRef<ActionType>();
 
   /**
@@ -42,23 +53,34 @@ export default function QuestionTable(props: Props) {
   return (
     <div className="question-table">
       <ProTable
+        dataSource={defaultQuestionList}
         actionRef={actionRef}
         columns={columns}
         size="large"
         search={{
           labelWidth: "auto",
         }}
+        form={{
+          initialValues: defaultSearchParams,
+        }}
         pagination={
           {
             pageSize: 12,
             showTotal: (total) => `总共 ${total} 条`,
             showSizeChanger: false,
+            total,
           } as TablePaginationConfig
         }
         // @ts-ignore
         request={async (params, sort, filter) => {
-          const sortField = Object.keys(sort)?.[0];
-          const sortOrder = sort?.[sortField];
+          if (init) {
+            setInit(false);
+            if (defaultQuestionList && defaultTotal) {
+              return;
+            }
+          }
+          const sortField = Object.keys(sort)?.[0] || "createTime";
+          const sortOrder = sort?.[sortField] || "descend";
           // 请求
           // @ts-ignore
           const { data, code } = await listQuestionVoByPageUsingPost({
@@ -72,6 +94,8 @@ export default function QuestionTable(props: Props) {
           const newTotal = Number(data.total) || 0;
           // @ts-ignore
           const newData = data.records || [];
+          setQuestionList(newData);
+          setTotal(newTotal);
           return {
             success: code === 0,
             data: newData,

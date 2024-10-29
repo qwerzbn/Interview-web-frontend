@@ -7,7 +7,11 @@ import "./index.css";
  * 题目列表页面
  * @constructor
  */
-export default async function QuestionsPage() {
+export default async function QuestionsPage(
+  // @ts-ignore
+  { searchParams },
+) {
+  const { q: searchText } = searchParams;
   let questionList = [];
   let total = 0;
 
@@ -16,6 +20,7 @@ export default async function QuestionsPage() {
       pageSize: 12,
       sortField: "createTime",
       sortOrder: "descend",
+      title: searchText,
     });
     // @ts-ignore
     questionList = questionRes.data.records ?? [];
@@ -29,7 +34,13 @@ export default async function QuestionsPage() {
   return (
     <div id="questionsPage" className="max-width-content">
       <Title level={3}>题目大全</Title>
-      <QuestionTable />
+      <QuestionTable
+        defaultQuestionList={questionList}
+        defaultTotal={total}
+        defaultSearchParams={{
+          title: searchText,
+        }}
+      />
     </div>
   );
 }
