@@ -32,7 +32,6 @@ export const menus = [
   {
     path: "/banks",
     name: "题库",
-    access: AccessEnum.USER,
   },
   {
     path: "/admin",
