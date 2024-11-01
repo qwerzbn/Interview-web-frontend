@@ -13,12 +13,17 @@ import {
 import TagList from "@/components/taglist";
 import MdEditor from "@/components/MdEditor";
 import "./index.css";
+import { UpdateBankModal } from "@/app/admin/question/component/UpdateBankModel";
 // eslint-disable-next-line react/display-name
 export default () => {
   // 是否显示新建窗口
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [updateModalData, setUpdateModalData] = useState<API.Question>();
+  // 是否显示更新所属题库的弹窗
+  const [updateBankModalVisible, setUpdateBankModalVisible] =
+    useState<boolean>(false);
+
+  const [currentRow, setCurrentRow] = useState<API.Question>();
   const actionRef = useRef<ActionType>();
 
   const columns: ProColumns<API.Question>[] = [
@@ -27,6 +32,12 @@ export default () => {
       dataIndex: "id",
       valueType: "text",
       hideInForm: true,
+    },
+    {
+      title: "所属题库",
+      dataIndex: "questionBankId",
+      hideInForm: true,
+      hideInTable: true,
     },
     {
       title: "标题",
@@ -143,11 +154,21 @@ export default () => {
           type="primary"
           key="editable"
           onClick={() => {
-            setUpdateModalData(record);
+            setCurrentRow(record);
             setUpdateModalVisible(true);
           }}
         >
           修改
+        </Button>,
+        <Button
+          type="primary"
+          key="editable"
+          onClick={() => {
+            setCurrentRow(record);
+            setUpdateBankModalVisible(true);
+          }}
+        >
+          修改所属题库
         </Button>,
         <Button onClick={() => handleDelete(record)} key="delete">
           删除
@@ -190,7 +211,7 @@ export default () => {
       <UpdateModal
         visible={updateModalVisible}
         columns={columns}
-        oldData={updateModalData}
+        oldData={currentRow}
         onSubmit={() => {
           setUpdateModalVisible(false);
           actionRef.current?.reload();
@@ -199,6 +220,15 @@ export default () => {
           setUpdateModalVisible(false);
         }}
       />
+      <UpdateBankModal
+        visible={updateBankModalVisible}
+        questionId={currentRow?.id}
+        onCancel={() => {
+          setCurrentRow(undefined);
+          setUpdateBankModalVisible(false);
+        }}
+      />
+
       <ProTable<API.Question>
         columns={columns}
         actionRef={actionRef}

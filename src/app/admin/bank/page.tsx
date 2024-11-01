@@ -13,7 +13,7 @@ export default () => {
   // 是否显示新建窗口
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [updateModalData, setUpdateModalData] = useState<API.QuestionBank>();
+  const [currentRow, setCurrentRow] = useState<API.QuestionBank>();
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<API.QuestionBank>[] = [
     {
@@ -74,7 +74,7 @@ export default () => {
           type="primary"
           key="editable"
           onClick={() => {
-            setUpdateModalData(record);
+            setCurrentRow(record);
             setUpdateModalVisible(true);
           }}
         >
@@ -121,7 +121,7 @@ export default () => {
       <UpdateModal
         visible={updateModalVisible}
         columns={columns}
-        oldData={updateModalData}
+        oldData={currentRow}
         onSubmit={() => {
           setUpdateModalVisible(false);
           actionRef.current?.reload();

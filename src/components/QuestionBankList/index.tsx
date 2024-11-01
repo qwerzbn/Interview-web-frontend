@@ -2,6 +2,7 @@
 import { Avatar, Card, List, Typography } from "antd";
 import "./index.css";
 import Link from "next/link";
+import 'github-markdown-css/github-markdown-light.css';
 
 interface Props {
   questionBankList: API.QuestionBankVO[];

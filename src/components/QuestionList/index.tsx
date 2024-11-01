@@ -2,8 +2,11 @@
 import { Card, List, Tag } from "antd";
 import "./index.css";
 import Link from "next/link";
+import React from "react";
 
 interface Props {
+  questionBankId?: number;
+  cardTitle?: React.ReactNode;
   questionList: API.QuestionVO[];
 }
 
@@ -22,13 +25,23 @@ const QuestionList = (props: Props) => {
   };
 
   return (
-    <Card className="question-list">
+    <Card className="question-list" title={props.cardTitle}>
       <List
         dataSource={questionList}
         renderItem={(item: API.QuestionVO) => (
           <List.Item extra={tagList(item.tagList)}>
             <List.Item.Meta
-              title={<Link href={`/question/${item.id}`}>{item.title}</Link>}
+              title={
+                <Link
+                  href={
+                    props.questionBankId
+                      ? `/bank/${props.questionBankId}/question/${item.id}`
+                      : `/question/${item.id}`
+                  }
+                >
+                  {item.title}
+                </Link>
+              }
             />
           </List.Item>
         )}

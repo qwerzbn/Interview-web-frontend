@@ -35,6 +35,24 @@ export async function deleteQuestionBankQuestionUsingDelete(
   );
 }
 
+/** listQuestionBankByQuestion POST /api/questionBank_question/list/questionBank */
+export async function listQuestionBankByQuestionUsingPost(
+  body: API.QuestionBankQuestionQueryRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListQuestionBank_>(
+    "/api/questionBank_question/list/questionBank",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
+
 /** removeQuestionBankQuestion DELETE /api/questionBank_question/remove */
 export async function removeQuestionBankQuestionUsingDelete(
   body: API.QuestionBankQuestionRemoveRequest,
