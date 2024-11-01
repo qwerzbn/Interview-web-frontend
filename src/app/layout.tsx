@@ -47,7 +47,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isLogin = pathname.startsWith("/user");
+  let isLogin = pathname.startsWith("/user");
+  if (pathname === "/user/center"){
+    isLogin = false;
+  }
   return (
     <html lang="zh">
       <body>

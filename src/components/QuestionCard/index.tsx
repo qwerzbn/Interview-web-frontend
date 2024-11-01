@@ -4,6 +4,8 @@ import Title from "antd/es/typography/Title";
 import MdViewer from "@/components/MdViewer";
 import "./index.css";
 import TagList from "@/components/taglist";
+import useAddUserSignIn from "@/app/hooks/useAddUserSignIn";
+
 interface Props {
   question: API.QuestionVO;
 }
@@ -15,7 +17,7 @@ interface Props {
  */
 const QuestionCard = (props: Props) => {
   const { question } = props;
-
+  useAddUserSignIn();
   return (
     <div className="question-card">
       <Card bordered={false}>

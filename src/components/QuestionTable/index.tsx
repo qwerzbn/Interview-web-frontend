@@ -1,6 +1,8 @@
 "use client";
-
-import { listQuestionVoByPageUsingPost } from "@/api/questionController";
+import {
+  listQuestionVoByPageUsingPost,
+  searchQuestionVoByPageUsingPost,
+} from "@/api/questionController";
 import { TablePaginationConfig } from "antd";
 import React, { useRef, useState } from "react";
 import { ProTable } from "@ant-design/pro-table";
@@ -33,6 +35,12 @@ export default function QuestionTable(props: Props) {
    */
   const columns: ProColumns<API.QuestionVO>[] = [
     {
+      title: "搜索",
+      dataIndex: "searchText",
+      valueType: "text",
+      hideInTable: true,
+    },
+    {
       title: "题目",
       dataIndex: "title",
       render(_, record) {
@@ -53,7 +61,7 @@ export default function QuestionTable(props: Props) {
   return (
     <div className="question-table">
       <ProTable
-        dataSource={defaultQuestionList}
+        dataSource={questionList}
         actionRef={actionRef}
         columns={columns}
         size="large"
@@ -83,7 +91,7 @@ export default function QuestionTable(props: Props) {
           const sortOrder = sort?.[sortField] || "descend";
           // 请求
           // @ts-ignore
-          const { data, code } = await listQuestionVoByPageUsingPost({
+          const { data, code } = await searchQuestionVoByPageUsingPost({
             ...params,
             sortField,
             sortOrder,

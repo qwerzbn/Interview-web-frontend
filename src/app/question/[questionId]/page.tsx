@@ -1,10 +1,5 @@
-import { Flex, Menu } from "antd";
-import Sider from "antd/es/layout/Sider";
-import Title from "antd/es/typography/Title";
 import { Content } from "antd/es/layout/layout";
 import { getQuestionVoByIdUsingGet } from "@/api/questionController";
-import { getQuestionBankVoByIdUsingPost } from "@/api/questionBankController";
-import Link from "next/link";
 import QuestionCard from "@/components/QuestionCard";
 
 export default async function QuestionPage({
@@ -28,12 +23,12 @@ export default async function QuestionPage({
   }
   return (
     <div id="questionPage">
-        <Content>
-          <QuestionCard
-            // @ts-ignore
-            question={question}
-          />
-        </Content>
+      <Content>
+        <QuestionCard
+          // @ts-ignore
+          question={question}
+        />
+      </Content>
     </div>
   );
 }
