@@ -5,9 +5,6 @@
 import * as wxMpController from "./wxMpController";
 import * as questionThumbController from "./questionThumbController";
 import * as fileController from "./fileController";
-import * as postController from "./postController";
-import * as postFavourController from "./postFavourController";
-import * as postThumbController from "./postThumbController";
 import * as questionController from "./questionController";
 import * as questionBankController from "./questionBankController";
 import * as questionBankQuestionController from "./questionBankQuestionController";
@@ -18,9 +15,6 @@ export default {
   wxMpController,
   questionThumbController,
   fileController,
-  postController,
-  postFavourController,
-  postThumbController,
   questionController,
   questionBankController,
   questionBankQuestionController,

@@ -3,7 +3,7 @@
 import request from "@/libs/request";
 
 /** doThumb POST /api/Question_thumb/ */
-export async function doThumbUsingPost1(
+export async function doThumbUsingPost(
   body: API.QuestionThumbAddRequest,
   options?: { [key: string]: any }
 ) {

@@ -3,6 +3,8 @@ import { Avatar, Card, List, Typography } from "antd";
 import "./index.css";
 import Link from "next/link";
 import 'github-markdown-css/github-markdown-light.css';
+import {useSelector} from "react-redux";
+import {RootState} from "@/stores";
 
 interface Props {
   questionBankList: API.QuestionBankVO[];
@@ -15,7 +17,7 @@ interface Props {
  */
 const QuestionBankList = (props: Props) => {
   const { questionBankList = [] } = props;
-
+    const loginUser = useSelector((state: RootState) => state.loginUser);
   return (
     <div className="question-bank-list">
       <List
@@ -31,7 +33,7 @@ const QuestionBankList = (props: Props) => {
         renderItem={(item: API.QuestionBankVO) => (
           <List.Item>
             <Card>
-              <Link href={`/bank/${item.id}`}>
+              <Link  href={`/bank/${item.id}`}>
                 <Card.Meta
                   avatar={<Avatar src={item.picture} />}
                   title={item.title}

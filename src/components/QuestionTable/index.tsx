@@ -3,12 +3,15 @@ import {
   listQuestionVoByPageUsingPost,
   searchQuestionVoByPageUsingPost,
 } from "@/api/questionController";
-import { TablePaginationConfig } from "antd";
+import { message, TablePaginationConfig } from "antd";
 import React, { useRef, useState } from "react";
 import { ProTable } from "@ant-design/pro-table";
 import TagList from "@/components/taglist";
 import Link from "next/link";
 import { ActionType, ProColumns } from "@ant-design/pro-components";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores";
+import accessEnum from "@/access/accessEnum";
 
 interface Props {
   defaultQuestionList?: API.QuestionVO[];
@@ -27,7 +30,7 @@ export default function QuestionTable(props: Props) {
   );
   const [total, setTotal] = useState<number>(defaultTotal || 0);
   const [init, setInit] = useState<boolean>(true);
-
+  const loginUser = useSelector((state: RootState) => state.loginUser);
   const actionRef = useRef<ActionType>();
 
   /**
@@ -44,7 +47,11 @@ export default function QuestionTable(props: Props) {
       title: "题目",
       dataIndex: "title",
       render(_, record) {
-        return <Link href={`/question/${record.id}`}>{record.title}</Link>;
+        if (loginUser.userRole === accessEnum.NOT_LOGIN) {
+          return <Link href="/user/login">{record.title}</Link>;
+        } else {
+          return <Link href={`/question/${record.id}`}>{record.title}</Link>;
+        }
       },
     },
     {
